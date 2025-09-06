@@ -10,10 +10,13 @@ const loadCategory = async () => {
   const categories = data.categories;
   displayLoadCategory(categories);
 };
+
 const displayLoadCategory = (data) => {
+  //   console.log(data);
   data.forEach((element) => {
+    // console.log(element);
     categoryContainer.innerHTML += `
-     <button
+     <button id="${element.id}"
               class="btn rounded-xl bg-[#f0fdf4]  hover:bg-[#15803d] hover:text-white"
             >
             ${element.category_name}
@@ -21,7 +24,24 @@ const displayLoadCategory = (data) => {
             </button>
     `;
   });
+  categoryContainer.addEventListener("click", (e) => {
+    const catButton = document.querySelectorAll("button");
+    catButton.forEach((btn) => {
+      btn.classList.remove("bg-green-700", "text-white");
+    });
+    // console.log(catButton);
+    if (e.target.localName === "button") {
+      e.target.classList.add("bg-green-700", "text-white");
+    }
+  });
 };
+
+// const catButton = document.querySelectorAll(".catbtn");
+// console.log(catButton);
+
+// const active = () => {
+//   catButton.innerHTML.classList.add("bg-red-500");
+// };
 
 const loadAllPlats = async () => {
   const url = "https://openapi.programming-hero.com/api/plants";
@@ -33,7 +53,6 @@ const loadAllPlats = async () => {
 
 const displayLoadAllPlats = (allPlants) => {
   allPlants.forEach((plant) => {
-    console.log(plant);
     cardContainer.innerHTML += `
     
     <div class="card bg-base-100 sm:w-90 shadow-sm">
