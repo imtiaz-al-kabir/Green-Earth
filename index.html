@@ -98,18 +98,41 @@
     </section>
     <!-- Our Impact Section  -->
     <section class="bg-[#f0fdf4]">
-      <div class="w-11/12 mx-auto grid grid-cols-12">
-        <div class="col-span-2 p-4">
+      <div class="sm:w-11/12 sm:mx-auto grid w-full sm:grid-cols-12">
+        <div class="sm:col-span-2 p-4">
           <h1 class="font-semibold">Categories</h1>
           <h2 class="bg-[#15803d] text-white rounded-lg px-2 py-2">
             All Trees
           </h2>
-          <div id="catContainer" class="space-y-1 flex flex-col mt-3">
-            
+          <div id="catContainer" class="space-y-1 flex flex-col mt-3"></div>
+        </div>
+        <div class="w-full sm:col-span-8 mt-6">
+          <div
+            id="cardContainer"
+            class="grid grid-cols-1 sm:grid-cols-3 gap-6 px-5 sm:px-1 overflow-hidden"
+          ></div>
+        </div>
+
+        <div class="sm:col-span-2 p-8 bg-white m-5 sm:mx-4 sm:mt-6 rounded-lg">
+          <h2 class="text-center font-bold text-2xl pb-3">Your Cart</h2>
+
+          <div id="cartContainer" class="">
+            <div
+              class="flex justify-between items-center p-3 bg-[#f0fdf4] rounded-lg"
+            >
+              <div>
+                <h1>Mango Tree</h1>
+                <p>৳500 x 1</p>
+              </div>
+              <div>x</div>
+            </div>
+            <hr class="text-gray-300 mt-2" />
+            <div class="flex justify-between">
+              <div>Total:</div>
+              <div>tk <span>1000</span></div>
+            </div>
           </div>
         </div>
-        <div class="col-span-8 border">asdasd</div>
-        <div class="col-span-2 border">asdasd</div>
       </div>
     </section>
     <script src="./app.js"></script>
