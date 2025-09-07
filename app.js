@@ -2,6 +2,33 @@ const categoryContainer = document.getElementById("catContainer");
 
 const cardContainer = document.getElementById("cardContainer");
 
+const loadCategoryId = async (id) => {
+  //   id.forEach((el) => {
+  //     console.log(el.categories);
+  //   });
+  //   console.log(id);
+  const url = `https://openapi.programming-hero.com/api/category/${id}`;
+  //   console.log(url);
+  const res = await fetch(url);
+  const data = await res.json();
+  const plants = data.plants.id;
+  displayLoadCategoryId(plants);
+};
+
+const displayLoadCategoryId = (data) => {
+  //   data.forEach((e) => {
+  //     console.log(e);
+  //   });
+
+  for (const d of data) {
+    console.log(d);
+  }
+  // console.log(data.category);
+  // console.log(data.cacategory);
+  // data.forEach((d) => console.log(d.category));
+  // data.filter((data) => data.category===);
+};
+
 const loadCategory = async () => {
   const url = "https://openapi.programming-hero.com/api/categories";
 
@@ -12,9 +39,10 @@ const loadCategory = async () => {
 };
 
 const displayLoadCategory = (data) => {
+  categoryContainer.innerHTML = "";
   //   console.log(data);
   data.forEach((element) => {
-    // console.log(element);
+    // console.log(element.id);
     categoryContainer.innerHTML += `
      <button id="${element.id}"
               class="btn rounded-xl bg-[#f0fdf4]  hover:bg-[#15803d] hover:text-white"
@@ -24,24 +52,24 @@ const displayLoadCategory = (data) => {
             </button>
     `;
   });
+
   categoryContainer.addEventListener("click", (e) => {
     const catButton = document.querySelectorAll("button");
     catButton.forEach((btn) => {
+      //   console.log(btn);
+
       btn.classList.remove("bg-green-700", "text-white");
+      //
+      loadCategoryId(btn.id);
+      console.log(btn.id);
     });
+
     // console.log(catButton);
     if (e.target.localName === "button") {
       e.target.classList.add("bg-green-700", "text-white");
     }
   });
 };
-
-// const catButton = document.querySelectorAll(".catbtn");
-// console.log(catButton);
-
-// const active = () => {
-//   catButton.innerHTML.classList.add("bg-red-500");
-// };
 
 const loadAllPlats = async () => {
   const url = "https://openapi.programming-hero.com/api/plants";
@@ -52,6 +80,7 @@ const loadAllPlats = async () => {
 };
 
 const displayLoadAllPlats = (allPlants) => {
+  cardContainer.innerHTML = "";
   allPlants.forEach((plant) => {
     cardContainer.innerHTML += `
     
