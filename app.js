@@ -139,15 +139,21 @@ const cartHandle = (e) => {
   const title = e.target.parentNode.children[0].innerText;
   const price = e.target.parentNode.children[2].children[1].innerText;
   const id = e.target.parentNode.id;
-  // console.log(title);
   console.log(price);
   // console.log(id);
+  const existingItem = carts.find((cart) => cart.id === id);
 
-  carts.push({
-    title: title,
-    price: price,
-    id: id,
-  });
+  if (existingItem) {
+    existingItem.quantity += 1;
+  } else {
+    carts.push({
+      title: title,
+      price: price,
+      id: id,
+      quantity: 1,
+    });
+  }
+  alert(`${title} has been added to the cart`);
   showCartHandle(carts);
 };
 
@@ -156,7 +162,6 @@ const showCartHandle = (carts) => {
   totalPrice = 0;
   // console.log(carts);
   carts.forEach((cart) => {
-    alert(`${cart.title} has been added to the cart`);
     cartContainer.innerHTML += `
     
     <div
@@ -164,24 +169,33 @@ const showCartHandle = (carts) => {
             >
               <div>
                 <h1>${cart.title}</h1>
-                <p>৳${cart.price} x 1</p>
+                <p>৳${cart.price} x ${cart.quantity}</p>
               </div>
-              <button onclick="deleteCart('${cart.id}')" class="btn btn-xs">x</button>
+              <button onclick="deleteCart('${cart.id}')" class="btn btn-xs">❌</button>
             </div>
 
 
     `;
+
     const price = Number(cart.price);
+    const quantity = Number(cart.quantity);
     console.log(price);
-    totalPrice = totalPrice + price;
+    totalPrice = (totalPrice + price) * quantity;
   });
   document.getElementById("totalPrice").innerText = totalPrice;
 };
 
 const deleteCart = (cartId) => {
-  const filteredCart = carts.filter((cart) => cart.id !== cartId);
-  console.log(filteredCart);
-  carts = filteredCart;
+  const item = carts.find((cart) => cart.id === cartId);
+
+  if (item) {
+    if (item.quantity > 1) {
+      item.quantity -= 1;
+    } else {
+      carts = carts.filter((cart) => cart.id !== cartId);
+    }
+  }
+
   showCartHandle(carts);
 };
 
