@@ -2,6 +2,9 @@ const categoryContainer = document.getElementById("catContainer");
 
 const cardContainer = document.getElementById("cardContainer");
 
+const cartContainer = document.getElementById("cartContainer");
+
+let carts = [];
 const loadCategoryId = async (id) => {
   //   id.forEach((el) => {
   //     console.log(el.categories);
@@ -79,19 +82,27 @@ const loadAllPlats = async () => {
   displayLoadAllPlats(allPlants);
 };
 
+// const addtocart = (id) => {
+//   id.forEach((id) => {
+//     id.addEventListener("click", (e) => {
+//       console.log(e);
+//     });
+//   });
+// };
+
 const displayLoadAllPlats = (allPlants) => {
   cardContainer.innerHTML = "";
   allPlants.forEach((plant) => {
     cardContainer.innerHTML += `
     
-    <div class="card bg-base-100 sm:w-90 shadow-sm">
+    <div  class="card bg-base-100 sm:w-90 shadow-sm">
               <figure>
                 <img class="h-[190px] w-full object-cover"
                   src="${plant.image}"
                   alt="Shoes"
                 />
               </figure>
-              <div class="card-body">
+              <div id="${plant.id}" class="card-body">
                 <h2 class="card-title">${plant.name}</h2>
                 <p>
                   ${plant.description}
@@ -100,9 +111,59 @@ const displayLoadAllPlats = (allPlants) => {
                   <div class="badge text-[#15803d] bg-[#cff0dc]">${plant.category}</div>
                   <div class="badge badge-outline">৳ ${plant.price}</div>
                 </div>
-                <button class="btn bg-[#15803d] text-white">Add To Cart</button>
+                <button   class="btn bg-[#15803d] text-white">Add To Cart</button>
               </div>
             </div>
+
+    `;
+    // addtocart(plant.id);
+    // console.log(plant.id);
+  });
+};
+
+cardContainer.addEventListener("click", (e) => {
+  // console.log(e.target);
+  if (e.target.innerText === "Add To Cart") {
+    cartHandle(e);
+  }
+});
+
+const cartHandle = (e) => {
+  const title = e.target.parentNode.children[0].innerText;
+  const price = e.target.parentNode.children[2].children[1].innerText;
+  const id = e.target.parentNode.id;
+  // console.log(title);
+  // console.log(price);
+  // console.log(id);
+  carts.push({
+    title: title,
+    price: price,
+    id: id,
+  });
+  showCartHandle(carts);
+};
+
+const showCartHandle = (carts) => {
+  cartContainer.innerHTML = "";
+  // console.log(carts);
+  carts.forEach((cart) => {
+    cartContainer.innerHTML += `
+    
+    <div
+              class="flex justify-between items-center p-3 bg-[#f0fdf4] rounded-lg"
+            >
+              <div>
+                <h1>${cart.title}</h1>
+                <p>৳${cart.price} x 1</p>
+              </div>
+              <div>x</div>
+            </div>
+            <hr class="text-gray-300 mt-2" />
+            <div class="flex justify-between">
+              <div>Total:</div>
+              <div>tk <span>1000</span></div>
+            </div>
+
 
     `;
   });
