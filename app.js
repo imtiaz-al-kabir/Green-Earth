@@ -3,34 +3,8 @@ const categoryContainer = document.getElementById("catContainer");
 const cardContainer = document.getElementById("cardContainer");
 
 const cartContainer = document.getElementById("cartContainer");
-
+let totalPrice = Number(document.getElementById("totalPrice").innerText);
 let carts = [];
-const loadCategoryId = async (id) => {
-  //   id.forEach((el) => {
-  //     console.log(el.categories);
-  //   });
-  //   console.log(id);
-  const url = `https://openapi.programming-hero.com/api/category/${id}`;
-  //   console.log(url);
-  const res = await fetch(url);
-  const data = await res.json();
-  const plants = data.plants.id;
-  displayLoadCategoryId(plants);
-};
-
-const displayLoadCategoryId = (data) => {
-  //   data.forEach((e) => {
-  //     console.log(e);
-  //   });
-
-  for (const d of data) {
-    console.log(d);
-  }
-  // console.log(data.category);
-  // console.log(data.cacategory);
-  // data.forEach((d) => console.log(d.category));
-  // data.filter((data) => data.category===);
-};
 
 const loadCategory = async () => {
   const url = "https://openapi.programming-hero.com/api/categories";
@@ -47,8 +21,11 @@ const displayLoadCategory = (data) => {
   data.forEach((element) => {
     // console.log(element.id);
     categoryContainer.innerHTML += `
-     <button id="${element.id}"
-              class="btn rounded-xl bg-[#f0fdf4]  hover:bg-[#15803d] hover:text-white"
+
+         
+
+     <button onclick="loadCategoryId('${element.id}','${element.category_name}') " id="${element.id}"
+              class="btn rounded-xl  hover:bg-green-700 hover:text-white catbtn"
             >
             ${element.category_name}
             
@@ -57,14 +34,14 @@ const displayLoadCategory = (data) => {
   });
 
   categoryContainer.addEventListener("click", (e) => {
-    const catButton = document.querySelectorAll("button");
+    const catButton = document.querySelectorAll(".catbtn");
     catButton.forEach((btn) => {
       //   console.log(btn);
 
       btn.classList.remove("bg-green-700", "text-white");
       //
-      loadCategoryId(btn.id);
-      console.log(btn.id);
+      // loadCategoryId(btn.id);
+      // console.log(btn.id);
     });
 
     // console.log(catButton);
@@ -81,14 +58,6 @@ const loadAllPlats = async () => {
   const allPlants = data.plants;
   displayLoadAllPlats(allPlants);
 };
-
-// const addtocart = (id) => {
-//   id.forEach((id) => {
-//     id.addEventListener("click", (e) => {
-//       console.log(e);
-//     });
-//   });
-// };
 
 const displayLoadAllPlats = (allPlants) => {
   cardContainer.innerHTML = "";
@@ -109,13 +78,15 @@ const displayLoadAllPlats = (allPlants) => {
                 </p>
                 <div class="card-actions justify-between">
                   <div class="badge text-[#15803d] bg-[#cff0dc]">${plant.category}</div>
-                  <div class="badge badge-outline">৳ ${plant.price}</div>
+                  <div class="badge badge-outline"><span>${plant.price}</span> </div>
                 </div>
                 <button   class="btn bg-[#15803d] text-white">Add To Cart</button>
               </div>
             </div>
 
     `;
+    // const id = plant.id;
+    // loadCategoryId(id);
     // addtocart(plant.id);
     // console.log(plant.id);
   });
@@ -133,8 +104,9 @@ const cartHandle = (e) => {
   const price = e.target.parentNode.children[2].children[1].innerText;
   const id = e.target.parentNode.id;
   // console.log(title);
-  // console.log(price);
+  console.log(price);
   // console.log(id);
+
   carts.push({
     title: title,
     price: price,
@@ -145,6 +117,7 @@ const cartHandle = (e) => {
 
 const showCartHandle = (carts) => {
   cartContainer.innerHTML = "";
+  totalPrice = 0;
   // console.log(carts);
   carts.forEach((cart) => {
     cartContainer.innerHTML += `
@@ -156,18 +129,41 @@ const showCartHandle = (carts) => {
                 <h1>${cart.title}</h1>
                 <p>৳${cart.price} x 1</p>
               </div>
-              <div>x</div>
-            </div>
-            <hr class="text-gray-300 mt-2" />
-            <div class="flex justify-between">
-              <div>Total:</div>
-              <div>tk <span>1000</span></div>
+              <button onclick="deleteCart('${cart.id}')" class="btn btn-xs">x</button>
             </div>
 
 
     `;
+    const price = Number(cart.price);
+    console.log(price);
+    totalPrice = totalPrice + price;
   });
+  document.getElementById("totalPrice").innerText = totalPrice;
 };
 
+const deleteCart = (cartId) => {
+  const filteredCart = carts.filter((cart) => cart.id !== cartId);
+  console.log(filteredCart);
+  carts = filteredCart;
+  showCartHandle(carts);
+};
+
+const loadCategoryId = async (id, category) => {
+  console.log(id, category);
+  // console.log(category);
+  const url = `https://openapi.programming-hero.com/api/category/${id}`;
+  // console.log(url);
+  const res = await fetch(url);
+  const data1 = await res.json();
+  // console.log(data);
+  const plants = data1.plants;
+  // console.log(plants);
+  displayLoadCategoryId(plants, category);
+};
+
+const displayLoadCategoryId = (data, category) => {
+  const filteredCategory = data.filter((el) => el.category === category);
+  displayLoadAllPlats(filteredCategory);
+};
 loadCategory();
 loadAllPlats();
