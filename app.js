@@ -6,6 +6,16 @@ const cartContainer = document.getElementById("cartContainer");
 let totalPrice = Number(document.getElementById("totalPrice").innerText);
 let carts = [];
 
+const manageSpinner = (status) => {
+  if (status == true) {
+    document.getElementById("spinner").classList.add("hidden");
+    document.getElementById("cardContainer").classList.remove("hidden");
+  } else {
+    document.getElementById("cardContainer").classList.add("hidden");
+    document.getElementById("spinner").classList.remove("hidden");
+  }
+};
+
 const loadCategory = async () => {
   const url = "https://openapi.programming-hero.com/api/categories";
 
@@ -39,9 +49,6 @@ const displayLoadCategory = (data) => {
       //   console.log(btn);
 
       btn.classList.remove("bg-green-700", "text-white");
-      //
-      // loadCategoryId(btn.id);
-      // console.log(btn.id);
     });
 
     // console.log(catButton);
@@ -52,6 +59,7 @@ const displayLoadCategory = (data) => {
 };
 
 const loadAllPlats = async () => {
+  manageSpinner(false);
   const url = "https://openapi.programming-hero.com/api/plants";
   const res = await fetch(url);
   const data = await res.json();
@@ -72,7 +80,7 @@ const displayLoadAllPlats = (allPlants) => {
                 />
               </figure>
               <div id="${plant.id}" class="card-body">
-                <h2 class="card-title">${plant.name}</h2>
+                <h2 onclick="loadPlantDetails(${plant.id})" class="card-title cursor-pointer">${plant.name}</h2>
                 <p>
                   ${plant.description}
                 </p>
@@ -80,18 +88,46 @@ const displayLoadAllPlats = (allPlants) => {
                   <div class="badge text-[#15803d] bg-[#cff0dc]">${plant.category}</div>
                   <div class="badge badge-outline"><span>${plant.price}</span> </div>
                 </div>
-                <button   class="btn bg-[#15803d] text-white">Add To Cart</button>
+                <button   class="btn bg-[#15803d] hover:bg-green-950 text-white">Add To Cart</button>
               </div>
             </div>
 
     `;
-    // const id = plant.id;
-    // loadCategoryId(id);
-    // addtocart(plant.id);
-    // console.log(plant.id);
   });
+  manageSpinner(true);
 };
 
+const loadPlantDetails = async (id) => {
+  const url = `https://openapi.programming-hero.com/api/plant/${id}`;
+  const res = await fetch(url);
+  const data = await res.json();
+  displayLoadPlantDetails(data.plants);
+};
+
+const displayLoadPlantDetails = (details) => {
+  console.log(details);
+  const detailsContainer = document.getElementById("detailsContainer");
+  detailsContainer.innerHTML = `<h2 class="card-title my-3 text-2xl font-bold ">${details.name}</h2>
+          <div class="card bg-base-100 shadow-sm">
+            <figure>
+              <img
+                class="h-[190px] w-full object-cover"
+                src="${details.image}"
+                alt="Shoes"
+              />
+            </figure>
+            <div id="" class="card-body">
+              <div>
+                <h2 class="font-bold">Category: ${details.category}</h2>
+                <h3 class="font-bold">Price: ৳ ${details.price}</h3>
+
+                <p class="font-bold">Description: ${details.description}</p>
+              </div>
+            </div>
+          </div>`;
+
+  document.getElementById("modalContainer").showModal();
+};
 cardContainer.addEventListener("click", (e) => {
   // console.log(e.target);
   if (e.target.innerText === "Add To Cart") {
@@ -120,6 +156,7 @@ const showCartHandle = (carts) => {
   totalPrice = 0;
   // console.log(carts);
   carts.forEach((cart) => {
+    alert(`${cart.title} has been added to the cart`);
     cartContainer.innerHTML += `
     
     <div
@@ -164,6 +201,8 @@ const loadCategoryId = async (id, category) => {
 const displayLoadCategoryId = (data, category) => {
   const filteredCategory = data.filter((el) => el.category === category);
   displayLoadAllPlats(filteredCategory);
+  // manageSpinner(false)
 };
+
 loadCategory();
 loadAllPlats();

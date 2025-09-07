@@ -96,8 +96,14 @@
         <img src="./assets/hero-leaf2.png" alt="" />
       </div>
     </section>
+
+    <!-- spinner  -->
+
     <!-- Our Impact Section  -->
     <section class="bg-[#f0fdf4]">
+      <div id="spinner" class="spinner flex justify-center items-center hidden">
+        <span class="loading loading-bars loading-xl"></span>
+      </div>
       <div class="sm:w-11/12 sm:mx-auto grid w-full sm:grid-cols-12">
         <div class="sm:col-span-2 p-4">
           <h1 class="font-semibold">Categories</h1>
@@ -109,6 +115,7 @@
           </button>
           <div id="catContainer" class="space-y-1 flex flex-col mt-3"></div>
         </div>
+
         <div class="w-full sm:col-span-8 mt-6">
           <div
             id="cardContainer"
@@ -224,7 +231,22 @@
         © 2025 Green Earth. All Rights Reserved.
       </h2>
     </footer>
+
+    <!-- Open the modal using ID.showModal() method -->
+    <dialog id="modalContainer" class="modal modal-bottom sm:modal-middle">
+      <div class="modal-box">
+        <div id="detailsContainer">
+          
+        </div>
+        <div class="modal-action">
+          <form method="dialog">
+            <!-- if there is a button in form, it will close the modal -->
+            <button class="btn">Close</button>
+          </form>
+        </div>
+      </div>
+    </dialog>
+
     <script src="./app.js"></script>
   </body>
 </html>
-
