@@ -85,7 +85,7 @@ const displayLoadAllPlats = (allPlants) => {
                 </p>
                 <div class="card-actions justify-between">
                   <div class="badge text-[#15803d] bg-[#cff0dc]">${plant.category}</div>
-                  <div class="badge badge-outline"><span>${plant.price}</span> </div>
+                  <div class="badge badge-outline">$<span>${plant.price}</span> </div>
                 </div>
                 <button   class="btn bg-[#15803d] hover:bg-green-950 text-white">Add To Cart</button>
               </div>
