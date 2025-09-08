@@ -85,7 +85,7 @@ const displayLoadAllPlats = (allPlants) => {
                 </p>
                 <div class="card-actions justify-between">
                   <div class="badge text-[#15803d] bg-[#cff0dc]">${plant.category}</div>
-                  <div class="badge badge-outline"><span>${plant.price}</span> </div>
+                  <div class="badge">৳<span>${plant.price}</span> </div>
                 </div>
                 <button   class="btn bg-[#15803d] hover:bg-green-950 text-white">Add To Cart</button>
               </div>
@@ -161,6 +161,7 @@ const showCartHandle = (carts) => {
   totalPrice = 0;
   // console.log(carts);
   carts.forEach((cart) => {
+    console.log(cart);
     cartContainer.innerHTML += `
     
     <div
@@ -168,7 +169,7 @@ const showCartHandle = (carts) => {
             >
               <div>
                 <h1>${cart.title}</h1>
-                <p>৳${cart.price} x ${cart.quantity}</p>
+                <p>${cart.price} x ${cart.quantity}</p>
               </div>
               <button onclick="deleteCart('${cart.id}')" class="btn btn-xs">❌</button>
             </div>
@@ -176,7 +177,7 @@ const showCartHandle = (carts) => {
 
     `;
 
-    const price = Number(cart.price);
+    const price = Number(cart.price.split("৳").join(""));
     const quantity = Number(cart.quantity);
     console.log(price);
     totalPrice = (totalPrice + price) * quantity;
