@@ -18,7 +18,6 @@ const manageSpinner = (status) => {
 
 const loadCategory = async () => {
   const url = "https://openapi.programming-hero.com/api/categories";
-
   const res = await fetch(url);
   const data = await res.json();
   const categories = data.categories;
